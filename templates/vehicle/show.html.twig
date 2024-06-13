@@ -1,0 +1,38 @@
+{# templates/vehicle/show.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Vehicle Details
+{% endblock %}
+
+{% block body %}
+	<h1>Vehicle Details</h1>
+
+	<dl class="row">
+		<dt class="col-sm-3">ID</dt>
+		<dd class="col-sm-9">{{ vehicle.id }}</dd>
+
+		<dt class="col-sm-3">Brand</dt>
+		<dd class="col-sm-9">{{ vehicle.brand }}</dd>
+
+		<dt class="col-sm-3">Model</dt>
+		<dd class="col-sm-9">{{ vehicle.modele }}</dd>
+
+		<dt class="col-sm-3">Registration Date</dt>
+		<dd class="col-sm-9">{{ vehicle.immatDate|date('Y-m-d') }}</dd>
+
+		<dt class="col-sm-3">Registration Number</dt>
+		<dd class="col-sm-9">{{ vehicle.immatNumber }}</dd>
+
+		<dt class="col-sm-3">Owner</dt>
+		<dd class="col-sm-9">{{ vehicle.owner.name }}</dd>
+
+		{# Ajoutez d'autres détails du véhicule si nécessaire #}
+	</dl>
+
+	<a href="{{ path('vehicle_index') }}" class="btn btn-primary">Back to List</a>
+	<a href="{{ path('vehicle_edit', {'id': vehicle.id}) }}" class="btn btn-warning">Edit</a>
+	<form action="{{ path('vehicle_delete', {'id': vehicle.id}) }}" method="post" style="display: inline-block">
+		<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ vehicle.id) }}">
+		<button type="submit" class="btn btn-danger">Delete</button>
+	</form>
+{% endblock %}

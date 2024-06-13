@@ -1,0 +1,36 @@
+{# templates/owner/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Owners List
+{% endblock %}
+
+{% block body %}
+	<h1>Owners List</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for owner in owners %}
+				<tr>
+					<td>{{ owner.id }}</td>
+					<td>{{ owner.name }}</td>
+					<td>
+						<a href="{{ path('owner_edit', {'id': owner.id}) }}" class="btn btn-sm btn-primary">Edit</a>
+						<form action="{{ path('owner_delete', {'id': owner.id}) }}" method="post" style="display: inline-block">
+							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ owner.id) }}">
+							<button type="submit" class="btn btn-sm btn-danger">Delete</button>
+						</form>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('owner_new') }}" class="btn btn-success">Create New Owner</a>
+{% endblock %}

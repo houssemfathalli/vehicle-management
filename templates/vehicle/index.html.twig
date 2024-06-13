@@ -1,0 +1,52 @@
+{# templates/vehicle/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste de véhicules
+{% endblock %}
+
+{% block body %}
+	<h1>Liste de véhicules</h1>
+
+	<div class="mb-3">
+		<form action="{{ path('vehicle_index') }}" method="GET" class="form-inline">
+			<input type="text" class="form-control mr-sm-2" placeholder="Search" name="search" value="{{ searchTerm }}">
+			<button type="submit" class="btn btn-primary">Search</button>
+		</form>
+	</div>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Marque</th>
+				<th>Modele</th>
+				<th>Date immatriculation</th>
+				<th>Numéro immatriculation</th>
+				<th>Propriétaire</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for vehicle in vehicles %}
+				<tr>
+					<td>{{ vehicle.id }}</td>
+					<td>{{ vehicle.brand }}</td>
+					<td>{{ vehicle.modele }}</td>
+					<td>{{ vehicle.immatDate|date('Y-m-d') }}</td>
+					<td>{{ vehicle.immatNumber }}</td>
+					<td>{{ vehicle.owner.name }}</td>
+					<td>
+						<a href="{{ path('vehicle_edit', {'id': vehicle.id}) }}" class="btn btn-sm btn-primary">Modifier</a>
+						<form action="{{ path('vehicle_delete', {'id': vehicle.id}) }}" method="post" style="display: inline-block">
+							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ vehicle.id) }}">
+							<button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
+						</form>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('vehicle_new') }}" class="btn btn-success">Ajouter une nouvelle vehicule</a><br>
+	<a href="{{ path('owner_index') }}">Voir la liste des propriétaires</a>
+{% endblock %}
